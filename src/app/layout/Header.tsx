@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
 import React, { useState } from "react";
-import { theme } from "@/pages/lib/theme";
+import { theme } from "@/app/lib/theme";
 import Image from "next/image";
 import { UserIcon } from "../components/userIcon";
 

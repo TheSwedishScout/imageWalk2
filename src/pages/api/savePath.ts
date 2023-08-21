@@ -1,7 +1,7 @@
 // pages/api/savePath.ts
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../app/lib/prisma";
 import { ILocationImage } from "@/app/components/newTrack/NewMapWrapper";
 import formidable from "formidable";
 
