@@ -1,0 +1,10 @@
+.trackMapContainer {
+  display: grid;
+}
+.trackMapContainer > *{
+  grid-column: 1;
+  grid-row: 1;
+}
+.openBtn{
+  align-self: flex-end;
+}

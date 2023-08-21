@@ -1,0 +1,31 @@
+version: '3'
+services:
+  next:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    image: art-walk
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env.local
+  postgres:
+    container_name: artwalk
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: securePassword
+      POSTGRES_USER: docker
+      POSTGRES_DB: artwalk
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
+    driver: local
+    
+
+    # host.docker.internal
