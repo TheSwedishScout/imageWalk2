@@ -72,7 +72,7 @@ const TrackMap = ({
                   lng: position.coords.longitude,
                   lat: position.coords.latitude,
                 },
-                images[0]
+                images[currentSegment]
               ) < DistanceToOpen
             ) {
               onCallbackCloseLocation();
