@@ -1,4 +1,4 @@
-import useFetch from "@/app/api/useFetch";
+import {useFetch} from "@/app/api/useFetch";
 import { Button, Card, Skeleton } from "@mui/material";
 import { LocationImage, Path } from "@prisma/client";
 import { useRouter } from "next/router";

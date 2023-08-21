@@ -56,7 +56,7 @@ const fetcher = async (url: string, method: string, body?: any) => {
   }
 };
 
-const useFetch = (url: string) => {
+export const useFetch = (url: string) => {
   const { data, isLoading } = useSWR(url, fetcher, {
     onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
       // Don't retry on 400, 401, 404
@@ -144,5 +144,3 @@ const useFetch = (url: string) => {
     remove,
   };
 };
-
-export default useFetch;

@@ -1,4 +1,4 @@
-import useFetch from "@/app/api/useFetch";
+import {useFetch} from "@/app/api/useFetch";
 import { splitPathByImages } from "@/app/components/lib/cordinates";
 import TrackMap from "@/app/components/track/TrackMap";
 import { Button, Card, Modal, Skeleton, Typography } from "@mui/material";
