@@ -12,7 +12,6 @@ export default async function handler(
   if (req.method === "POST") {
     // Create a new formidable form instance
     const form = formidable({});
-    console.log("1");
 
     // Parse form data
     form.parse(req, async (err, fields) => {
@@ -23,7 +22,6 @@ export default async function handler(
       }
 
       const { path, pathInfo, images } = fields;
-      console.log("{ path, pathInfo, images }", { path, pathInfo, images });
       const parsedPath = JSON.parse(path[0]);
       const parsedPathInfo = JSON.parse(pathInfo[0]);
       const parsedImages = JSON.parse(images[0]);

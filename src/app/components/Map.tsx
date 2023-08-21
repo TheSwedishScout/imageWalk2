@@ -74,7 +74,6 @@ export default function Map({
     const pathCoordinates = track?.coordinates.map((coord) => {
       return { lat: coord.latitude, lng: coord.longitude };
     });
-    console.log("🚀🤯 ~ file: Map.tsx:77 ~ pathCoordinates:", pathCoordinates);
     const pathLineTemp = new google.maps.Polyline({
       path: pathCoordinates,
       geodesic: true,
@@ -125,7 +124,6 @@ export default function Map({
 
   useEffect(() => {
     if (map && track) {
-      console.log("render path and questions", track);
       if (pathLine != null) {
         pathLine.setMap(null);
       }

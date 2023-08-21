@@ -55,7 +55,6 @@ const EditMap = ({
 
   const handleOnClick = (event: google.maps.MapMouseEvent) => {
     if (tool === "path") {
-      console.log("path click", event);
       if (event.latLng) {
         const newPath = { lat: event.latLng.lat(), lng: event.latLng.lng() };
         setPath((old) => [...old, newPath]);
@@ -109,7 +108,6 @@ const EditMap = ({
 
   // Call setPath with new edited path
   const onEdit = useCallback(() => {
-    console.log("edit");
     if (tool == "path" && polylineRef.current) {
       const nextPath = polylineRef.current
         .getPath()

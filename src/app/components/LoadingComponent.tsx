@@ -1,4 +1,4 @@
-import {theme} from "@/pages/lib/theme";
+import { theme } from "@/pages/lib/theme";
 import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 

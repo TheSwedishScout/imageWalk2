@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    console.log("🚀🤯 ~ file: [id].ts:11 ~ req:", req);
     const id = req.query.id?.toString();
     if (!id) {
       res.status(422).json({ error: "Missing id" });

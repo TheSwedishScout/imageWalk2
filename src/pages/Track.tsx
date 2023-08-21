@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {useFetch} from "@/app/api/useFetch";
+import { useFetch } from "@/app/api/useFetch";
 import MapWrapper from "@/app/components/MapWrapper";
 import TrackStepper from "@/app/components/TrackStepper";
 import { Box, Button, Grid, Typography } from "@mui/material";

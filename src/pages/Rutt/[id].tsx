@@ -1,4 +1,4 @@
-import {useFetch} from "@/app/api/useFetch";
+import { useFetch } from "@/app/api/useFetch";
 import { splitPathByImages } from "@/app/components/lib/cordinates";
 import TrackMap from "@/app/components/track/TrackMap";
 import { Button, Card, Modal, Skeleton, Typography } from "@mui/material";
@@ -17,17 +17,9 @@ function Rutt() {
   }
 
   if (path) {
-    console.log("🚀🤯 ~ file: [id].tsx:17 ~ path:", path);
     const pathPos = JSON.parse(path.cordinates);
-    console.log("🚀🤯 ~ file: [id].tsx:17 ~ pathPos:", pathPos);
 
     const splittedPath = splitPathByImages(pathPos, path.Images);
-    console.log(
-      "🚀🤯 ~ file: [id].tsx:21 ~ pathPos, path.Images:",
-      pathPos,
-      path.Images
-    );
-    console.log("🚀🤯 ~ file: [id].tsx:21 ~ splittedPath:", splittedPath);
 
     return (
       <div>
@@ -39,7 +31,6 @@ function Rutt() {
             currentSegment={0}
             isFollow={false}
             onCallbackCloseLocation={() => {
-              console.log("callback");
               setShowButton(true);
             }}
             onCallbackLocationFar={() => {

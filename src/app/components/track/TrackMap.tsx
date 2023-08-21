@@ -57,10 +57,6 @@ const TrackMap = ({
                 lat: position.coords.latitude,
               });
             }
-            console.log({
-              lng: position.coords.longitude,
-              lat: position.coords.latitude,
-            });
             setDistace(
               distanceToTarget(
                 {
@@ -79,16 +75,6 @@ const TrackMap = ({
                 images[0]
               ) < DistanceToOpen
             ) {
-              console.log(
-                "close",
-                distanceToTarget(
-                  {
-                    lng: position.coords.longitude,
-                    lat: position.coords.latitude,
-                  },
-                  images[currentSegment]
-                )
-              );
               onCallbackCloseLocation();
             } else {
               onCallbackLocationFar();

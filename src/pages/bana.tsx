@@ -1,4 +1,4 @@
-import {useFetch} from "@/app/api/useFetch";
+import { useFetch } from "@/app/api/useFetch";
 import { Button, Card, Skeleton } from "@mui/material";
 import { LocationImage, Path } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -12,7 +12,6 @@ interface MyPath extends Path {
 function Home() {
   const { data: paths, isLoading } = useFetch("/api/paths");
   const router = useRouter();
-  console.log("🚀🤯 ~ file: bana.tsx:13 ~ paths:", paths);
   if (isLoading) {
     return <Skeleton></Skeleton>;
   }
