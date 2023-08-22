@@ -1,6 +1,7 @@
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
   // shadowDatabaseUrl = env("POSTGRES_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/d/migrate-shadow
 }
 
