@@ -1,8 +1,7 @@
 import fs from "fs";
-import { join } from "path";
 import { NextApiRequest, NextApiResponse } from "next";
 import formidable from "formidable";
-import { v4 as uuidv4 } from "uuid";
+import { v2 as cloudinary } from "cloudinary";
 
 export const config = {
   api: {
@@ -10,8 +9,11 @@ export const config = {
   },
 };
 
-const createDirIfNotExists = (dir: string) =>
-  !fs.existsSync(dir) ? fs.mkdirSync(dir) : undefined;
+cloudinary.v2.config({
+  cloud_name: process.env.cloudinary_Cloud_Name as string,
+  api_key: process.env.cloudinary_API_Key as string,
+  api_secret: process.env.cloudinary_API_Secret as string,
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,53 +21,38 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const form = formidable({});
-    const uploadDir = join(process.cwd(), "public/uploads");
-
-    createDirIfNotExists(uploadDir);
-
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+    // const uploadDir = join(process.cwd(), "public/uploads");''
 
     // form.uploadDir = uploadDir;
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(req, async (err, fields, files) => {
       if (err) {
-        console.error(err);
-        return res.status(500).json({ error: "Error uploading image." });
+        console.error("Error parsing form:", err);
+        return res.status(500).json({ error: "Form parsing error" });
       }
 
-      const uploadedFile = files.image;
-      const filePath = uploadedFile[0].filepath;
-      const fileName = uploadedFile[0].originalFilename || uuidv4();
+      const imageFile = files.image;
 
-      const newFilePath = join(uploadDir, fileName);
+      if (!imageFile) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
 
-      // fs.renameSync(filePath, newFilePath);
+      const imageBuffer = fs.readFileSync(imageFile.path);
 
-      // Read the file
-      fs.readFile(filePath, function (err, data) {
-        if (err) throw err;
-        // console.log("File read!");
-
-        // Write the file
-        fs.writeFile(newFilePath, data, function (err) {
-          if (err) throw err;
-          res.write("File uploaded and moved!");
-          res.end();
-          // console.log("File written!");
-        });
-
-        // Delete the file
-        fs.unlink(filePath, function (err) {
-          if (err) throw err;
-          // console.log("File deleted!");
-        });
-      });
-
-      res
-        .status(200)
-        .json({ message: "Image uploaded successfully.", path: newFilePath });
+      try {
+        await cloudinary.v2.uploader
+          .upload_stream({}, (error, result) => {
+            if (error) {
+              console.error("Error uploading to Cloudinary:", error);
+              return res.status(500).json({ error: "Upload failed" });
+            }
+            res.json({ imageUrl: result.secure_url });
+          })
+          .end(imageBuffer);
+      } catch (error) {
+        console.error("Error handling upload:", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
     });
   } else {
     res.status(405).json({ error: "Method not allowed." });

@@ -66,7 +66,7 @@ function Rutt() {
               {path.Images[currentSegment].name}
             </Typography>
             <Image
-              src={path.Images[currentSegment].image.replace("/app/public", "")}
+              src={path.Images[currentSegment].image}
               width={500}
               height={600}
               alt="image"
