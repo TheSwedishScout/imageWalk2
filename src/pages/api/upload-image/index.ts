@@ -9,7 +9,7 @@ export const config = {
   },
 };
 
-cloudinary.v2.config({
+cloudinary.config({
   cloud_name: process.env.cloudinary_Cloud_Name as string,
   api_key: process.env.cloudinary_API_Key as string,
   api_secret: process.env.cloudinary_API_Secret as string,
@@ -40,7 +40,7 @@ export default async function handler(
       const imageBuffer = fs.readFileSync(imageFile.path);
 
       try {
-        await cloudinary.v2.uploader
+        await cloudinary.uploader
           .upload_stream({}, (error, result) => {
             if (error) {
               console.error("Error uploading to Cloudinary:", error);
