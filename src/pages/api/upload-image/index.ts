@@ -49,6 +49,7 @@ export default async function handler(
             if (!result) {
               return res.status(500).json({ error: "Upload failed" });
             }
+            console.log("🚀🤯 ~ file: index.ts:53 ~ result:", result);
             res.json({ imageUrl: result.secure_url });
           })
           .end(imageBuffer);
