@@ -36,7 +36,6 @@ export default async function handler(
       }
 
       const uploadedFile = files.image;
-      console.log("uploadedFile", uploadedFile);
       const filePath = uploadedFile[0].filepath;
       const fileName = uploadedFile[0].originalFilename || uuidv4();
 
