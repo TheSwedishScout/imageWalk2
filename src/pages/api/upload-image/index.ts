@@ -1,6 +1,6 @@
 import fs from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable";
+import formidable, { Files } from "formidable";
 import { v2 as cloudinary } from "cloudinary";
 
 export const config = {
@@ -25,7 +25,7 @@ export default async function handler(
 
     // form.uploadDir = uploadDir;
 
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (err, fields, files: Files) => {
       if (err) {
         console.error("Error parsing form:", err);
         return res.status(500).json({ error: "Form parsing error" });
@@ -37,13 +37,16 @@ export default async function handler(
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-      const imageBuffer = fs.readFileSync(imageFile.path);
+      const imageBuffer = fs.readFileSync(imageFile[0].filepath);
 
       try {
         await cloudinary.uploader
           .upload_stream({}, (error, result) => {
             if (error) {
               console.error("Error uploading to Cloudinary:", error);
+              return res.status(500).json({ error: "Upload failed" });
+            }
+            if (!result) {
               return res.status(500).json({ error: "Upload failed" });
             }
             res.json({ imageUrl: result.secure_url });
