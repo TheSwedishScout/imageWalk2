@@ -19,6 +19,18 @@ export default async function handler(
       // paths.cordinates = JSON.parse(paths.cordinates?.toString());
       res.send(paths);
     }
+  } else if (req.method === "DELETE") {
+    // TODO: check if user is admin
+    const id = req.query.id?.toString();
+    if (!id) {
+      res.status(422).json({ error: "Missing id" });
+    }
+    const paths = await prisma.path.delete({
+      where: { id: id },
+    });
+    if (paths) {
+      res.send(paths);
+    }
   } else {
     res.status(405).json({ error: "Method not allowed." });
   }
