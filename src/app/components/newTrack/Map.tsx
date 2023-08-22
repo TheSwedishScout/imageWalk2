@@ -82,9 +82,12 @@ const EditMap = ({
                 lat: closest.lat,
                 lng: closest.lng,
                 description: null,
+                name: null,
                 id: uuidv4(),
                 image: "",
                 pathId: pathInfo.id,
+                height: null,
+                width: null,
               },
             ]);
           }
