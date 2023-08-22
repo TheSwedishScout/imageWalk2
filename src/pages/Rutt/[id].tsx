@@ -68,7 +68,7 @@ function Rutt() {
             <Image
               src={path.Images[currentSegment].image.replace("/app/public", "")}
               width={500}
-              height={800}
+              height={600}
               alt="image"
             />
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
