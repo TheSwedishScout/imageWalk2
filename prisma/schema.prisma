@@ -64,6 +64,9 @@ model LocationImage {
   path        Path? @relation(fields: [pathId], references: [id])
   pathId      String
   description String?
+  name        String?
+  width       Int?
+  height      Int?
   
   @@unique([lng, lat])
 }

@@ -1,7 +1,7 @@
 import fs from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
 import formidable, { Files } from "formidable";
-import { v2 as cloudinary } from "cloudinary";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 export const config = {
   api: {
@@ -14,6 +14,29 @@ cloudinary.config({
   api_key: process.env.cloudinary_API_Key as string,
   api_secret: process.env.cloudinary_API_Secret as string,
 });
+
+// type CloudinaryImage = {
+//   asset_id: string;
+//   public_id: string;
+//   version: number;
+//   version_id: string;
+//   signature: string;
+//   width: number;
+//   height: number;
+//   format: string;
+//   resource_type: string;
+//   created_at: string;
+//   tags: string[];
+//   bytes: number;
+//   type: string;
+//   etag: string;
+//   placeholder: boolean;
+//   url: string;
+//   secure_url: string;
+//   folder: string;
+//   original_filename: string;
+//   api_key: string;
+// };
 
 export default async function handler(
   req: NextApiRequest,
@@ -41,7 +64,7 @@ export default async function handler(
 
       try {
         await cloudinary.uploader
-          .upload_stream({}, (error, result) => {
+          .upload_stream({}, (error, result: UploadApiResponse | undefined) => {
             if (error) {
               console.error("Error uploading to Cloudinary:", error);
               return res.status(500).json({ error: "Upload failed" });
@@ -49,8 +72,12 @@ export default async function handler(
             if (!result) {
               return res.status(500).json({ error: "Upload failed" });
             }
-            console.log("🚀🤯 ~ file: index.ts:53 ~ result:", result);
-            res.json({ imageUrl: result.secure_url });
+            res.json({
+              imageUrl: result.secure_url,
+              width: result.width,
+              height: result.height,
+              public_id: result.public_id,
+            });
           })
           .end(imageBuffer);
       } catch (error) {

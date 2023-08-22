@@ -20,13 +20,28 @@ export const ImageInfo = ({
               // update image object
               setImages((prev) => {
                 const newImages = [...prev];
-                newImages[index].imageFile = imageFile;
+                newImages[index].imageFile = imageFile.imageUrl;
+                newImages[index].width = imageFile.width;
+                newImages[index].height = imageFile.height;
+                return newImages;
+              });
+            }}
+          />
+          <TextField
+            label="Bild namn"
+            maxRows={4}
+            value={image.name}
+            onChange={(event) => {
+              setImages((prev) => {
+                const newImages = [...prev];
+                newImages[index].name = event.target.value;
                 return newImages;
               });
             }}
           />
           <TextField
             multiline
+            label="Beskrivning"
             maxRows={4}
             value={image.description}
             onChange={(event) => {

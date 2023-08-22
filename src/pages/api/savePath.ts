@@ -2,8 +2,12 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../app/lib/prisma";
-import { ILocationImage } from "@/app/components/newTrack/NewMapWrapper";
+import {
+  ILocationImage,
+  IPathInfo,
+} from "@/app/components/newTrack/NewMapWrapper";
 import formidable from "formidable";
+import { LatLng } from "@/app/components/lib/cordinates";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,19 +26,19 @@ export default async function handler(
       }
 
       const { path, pathInfo, images } = fields;
-      const parsedPath = JSON.parse(path[0]);
-      const parsedPathInfo = JSON.parse(pathInfo[0]);
-      const parsedImages = JSON.parse(images[0]);
+      const parsedPath: LatLng[] = JSON.parse(path[0]);
+      const parsedPathInfo: IPathInfo = JSON.parse(pathInfo[0]);
+      const parsedImages: ILocationImage[] = JSON.parse(images[0]);
 
       // Save path information
       const savedPath = await prisma.path.create({
         data: {
           cordinates: path,
-          startLocation: parsedPath[0],
-          endLocation: parsedPath[path.length - 1],
-          name: parsedPathInfo.name,
-          description: parsedPathInfo.description,
-          difficulty: parsedPathInfo.difficulty,
+          startLocation: parsedPath[0] as any,
+          endLocation: parsedPath[path.length - 1] as any,
+          name: parsedPathInfo.name || "",
+          description: parsedPathInfo.description || "",
+          difficulty: parsedPathInfo.difficulty || "medium",
           // userId: ..., // Set the user ID based on your authentication
         },
       });
@@ -45,6 +49,9 @@ export default async function handler(
           const savedImage = await prisma.locationImage.create({
             data: {
               image: image.imageFile || "",
+              name: image.name,
+              height: image.height,
+              width: image.width,
               lng: image.lng,
               lat: image.lat,
               description: image.description,

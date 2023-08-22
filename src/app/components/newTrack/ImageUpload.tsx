@@ -2,11 +2,18 @@ import React, { useState, ChangeEvent } from "react";
 import { Input, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 
+type ImageInfo = {
+  imageUrl: string;
+  width: number;
+  height: number;
+  public_id: string;
+};
+
 const ImageUpload = ({
   onCallback,
   image,
 }: {
-  onCallback: (image: string) => void;
+  onCallback: (ImageInfo: ImageInfo) => void;
   image?: string | null;
 }) => {
   const [previewImage, setPreviewImage] = useState<string | null>(
@@ -26,8 +33,8 @@ const ImageUpload = ({
     }).then(async (response) => {
       // Handle response
       if (response.ok) {
-        const data: { message: string; path: string } = await response.json();
-        onCallback(data.path);
+        const data: ImageInfo = await response.json();
+        onCallback(data);
       } else {
         toast(`error: ${response.status}`);
       }
