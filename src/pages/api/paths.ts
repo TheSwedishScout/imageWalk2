@@ -8,12 +8,12 @@ export default async function handler(
     const paths = await prisma.path.findMany({
       include: { authur: { select: { name: true } } },
     });
-    const trimmed = paths.map((path) => {
-      const { cordinates, ...rest } = path;
-      cordinates?.toString();
-      return rest;
-    });
-    res.send(trimmed);
+    // const trimmed = paths.map((path) => {
+    //   const { cordinates, ...rest } = path;
+    //   cordinates?.toString();
+    //   return rest;
+    // });
+    res.send(paths);
   } else {
     res.status(405).json({ error: "Method not allowed." });
   }
