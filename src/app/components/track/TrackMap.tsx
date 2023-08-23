@@ -19,6 +19,7 @@ const containerStyle: React.CSSProperties = {
 const TrackMap = ({
   path,
   images,
+  setUnlocked,
   isFollow,
   currentSegment = 0,
   onCallbackCloseLocation,
@@ -26,6 +27,7 @@ const TrackMap = ({
 }: {
   isFollow: boolean;
   path: LatLng[][];
+  setUnlocked: React.Dispatch<React.SetStateAction<number[]>>;
   images: LocationImage[];
   currentSegment: number;
   onCallbackCloseLocation: () => void;
@@ -38,52 +40,42 @@ const TrackMap = ({
   });
   const [map, setMap] = useState<google.maps.Map | null | undefined>();
   const [myLocation, setMyLocation] = useState<LatLng>();
-  const [distance, setDistace] = useState<number>();
+
+  const watchPos = (position: GeolocationPosition) => {
+    setMyLocation({
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    });
+    if (isFollow && map) {
+      map.setCenter({
+        lng: position.coords.longitude,
+        lat: position.coords.latitude,
+      });
+    }
+    if (
+      distanceToTarget(
+        {
+          lng: position.coords.longitude,
+          lat: position.coords.latitude,
+        },
+        images[currentSegment]
+      ) < DistanceToOpen
+    ) {
+      setUnlocked((currentUnlocked) => [...currentUnlocked, currentSegment]);
+      onCallbackCloseLocation();
+    } else {
+      onCallbackLocationFar();
+    }
+  };
 
   useEffect(() => {
     let watchId: number | null = null;
 
     const startWatching = () => {
       if (navigator.geolocation) {
-        watchId = navigator.geolocation.watchPosition(
-          (position) => {
-            setMyLocation({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-            if (isFollow && map) {
-              map.setCenter({
-                lng: position.coords.longitude,
-                lat: position.coords.latitude,
-              });
-            }
-            setDistace(
-              distanceToTarget(
-                {
-                  lng: position.coords.longitude,
-                  lat: position.coords.latitude,
-                },
-                images[0]
-              )
-            );
-            if (
-              distanceToTarget(
-                {
-                  lng: position.coords.longitude,
-                  lat: position.coords.latitude,
-                },
-                images[currentSegment]
-              ) < DistanceToOpen
-            ) {
-              onCallbackCloseLocation();
-            } else {
-              onCallbackLocationFar();
-            }
-          },
-          (error) => {
-            console.error("Error getting user location:", error);
-          }
-        );
+        watchId = navigator.geolocation.watchPosition(watchPos, (error) => {
+          console.error("Error getting user location:", error);
+        });
       } else {
         console.error("Geolocation is not supported by this browser.");
       }
@@ -132,6 +124,14 @@ const TrackMap = ({
           />
         );
       })}
+      {myLocation && (
+        <Polyline
+          path={[myLocation, images[currentSegment]]}
+          options={{
+            strokeColor: "#ff00ff",
+          }}
+        />
+      )}
       {/* Child components, such as markers, info windows, etc. */}
       {images.map((image) => {
         return (
@@ -142,7 +142,6 @@ const TrackMap = ({
         );
       })}
       <Circle center={myLocation} radius={5} />
-      <h2>Distans {distance}</h2>
     </GoogleMap>
   ) : (
     <></>

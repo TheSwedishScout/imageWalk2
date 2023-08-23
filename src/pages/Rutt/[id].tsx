@@ -10,6 +10,8 @@ import { useLocalStorage } from "usehooks-ts";
 function Rutt() {
   const [showButton, setShowButton] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
+  const [unlocked, setUnlocked] = useState<Array<number>>([]);
+  console.log("🚀🤯 ~ file: [id].tsx:14 ~ unlocked:", unlocked);
   const router = useRouter();
   const [currentSegment, setCurrentSegment] = useLocalStorage<number>(
     `${router.query.id}-segment`,
@@ -32,6 +34,7 @@ function Rutt() {
           <TrackMap
             path={splittedPath}
             images={path.Images}
+            setUnlocked={setUnlocked}
             currentSegment={0}
             isFollow={false}
             onCallbackCloseLocation={() => {
