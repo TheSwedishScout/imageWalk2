@@ -80,6 +80,7 @@ function Rutt() {
               width={path.Images[currentSegment].width}
               height={path.Images[currentSegment].height}
               alt="image"
+              style={{ maxWidth: "100%" }}
             />
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {path.Images[currentSegment].description}
@@ -87,7 +88,9 @@ function Rutt() {
             <Button
               variant="contained"
               onClick={() => {
-                setModal(false), setCurrentSegment((current) => current++);
+                // TODO: Fix so that it cant increase by opening and closing modal more then once per location
+                setModal(false);
+                setCurrentSegment((current) => current++);
               }}
             >
               Stäng

@@ -13,7 +13,7 @@ const DistanceToOpen = 0.02;
 
 const containerStyle: React.CSSProperties = {
   width: "100vw",
-  height: "80vh",
+  height: "70vh",
 };
 
 const TrackMap = ({
