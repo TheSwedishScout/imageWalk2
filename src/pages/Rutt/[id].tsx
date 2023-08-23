@@ -80,7 +80,7 @@ function Rutt() {
               width={path.Images[currentSegment].width}
               height={path.Images[currentSegment].height}
               alt="image"
-              style={{ maxWidth: "100%" }}
+              style={{ maxWidth: "100%", height: "auto" }}
             />
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {path.Images[currentSegment].description}
