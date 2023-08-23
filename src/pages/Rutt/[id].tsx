@@ -5,12 +5,16 @@ import { Button, Card, Modal, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 function Rutt() {
   const [showButton, setShowButton] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-  const [currentSegment, setCurrentSegment] = useState<number>(0);
   const router = useRouter();
+  const [currentSegment, setCurrentSegment] = useLocalStorage<number>(
+    `${router.query.id}-segment`,
+    0
+  );
   const { data: path, isLoading } = useFetch(`/api/path/${router.query.id}`);
   if (isLoading) {
     return <Skeleton></Skeleton>;
@@ -56,19 +60,25 @@ function Rutt() {
           <Card
             className="dark"
             sx={{
+              padding: "1rem",
               width: "100vw",
               height: "100vh",
               backgroundColor: "#202020",
               color: "#E3E3E3",
             }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography
+              textAlign={"center"}
+              id="modal-modal-title"
+              variant="h3"
+              component="h2"
+            >
               {path.Images[currentSegment].name}
             </Typography>
             <Image
               src={path.Images[currentSegment].image}
-              width={500}
-              height={600}
+              width={path.Images[currentSegment].width}
+              height={path.Images[currentSegment].height}
               alt="image"
             />
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>

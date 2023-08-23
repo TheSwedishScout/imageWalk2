@@ -12,8 +12,8 @@ import { LocationImage } from "@prisma/client";
 const DistanceToOpen = 0.02;
 
 const containerStyle: React.CSSProperties = {
-  width: "1200px",
-  height: "800px",
+  width: "100vw",
+  height: "80wh",
 };
 
 const TrackMap = ({
