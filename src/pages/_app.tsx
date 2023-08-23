@@ -25,6 +25,12 @@ export default function App({
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link
+          rel="icon"
+          href="/artwalkLogo2h400.png"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
       </Head>
       <ActiveRouteProvider>
         <ThemeProvider theme={theme}>
