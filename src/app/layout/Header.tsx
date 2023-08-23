@@ -44,8 +44,8 @@ const Header = () => {
         <Box display="flex" alignItems="center">
           <Link href="/">
             <Image
-              src="/logo.svg"
-              alt="logo Logo"
+              src="/artwalkLogo2h400.png"
+              alt="art walk logo"
               priority={true}
               width={147}
               height={58}
