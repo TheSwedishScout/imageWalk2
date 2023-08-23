@@ -47,8 +47,8 @@ const Header = () => {
               src="/artwalkLogo2h400.png"
               alt="art walk logo"
               priority={true}
-              width={147}
-              height={58}
+              width={50}
+              height={40}
             />
             <Box
               sx={{
